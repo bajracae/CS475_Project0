@@ -5,60 +5,59 @@ A great use for parallel programming is identical operations on large arrays of 
 
 ## Requirements
 
-    Pick an array size to do the arithmetic on. Something like 16384 (16K) will do. Don't pick something too huge, as your machine may not allow you to use that much memory. Don't pick something too small, as the overhead of using threading might dominate the parallelism gains.
+Pick an array size to do the arithmetic on. Something like 16384 (16K) will do. Don't pick something too huge, as your machine may not allow you to use that much memory. Don't pick something too small, as the overhead of using threading might dominate the parallelism gains.
 
-    Using OpenMP, pairwise multiply two large floating-point arrays, putting the results in another array. Do this in a for-loop.
-    C[ i ] = A[ i ] * B[ i ];
+Using OpenMP, pairwise multiply two large floating-point arrays, putting the results in another array. Do this in a for-loop.
+C[ i ] = A[ i ] * B[ i ];
 
-    Do this for one thread and do this for four threads:
-    #define NUMT 1
-    and
-    #define NUMT 4
+Do this for one thread and do this for four threads:
+#define NUMT 1
+and
+#define NUMT 4
 
-    Time the two runs. Convert the timing results into "Mega-Multiplies per Second".
+Time the two runs. Convert the timing results into "Mega-Multiplies per Second".
 
-    What speedup, S, are you seeing when you move from 1 thread to 4 threads?
-    S = (Execution time with one thread) / (Execution time with four threads) = (Performance with four threads) / (Performance with one thread)
-    This number should be greater than 1.0 . If not, be sure you are using the correct numerator and denominator.
+What speedup, S, are you seeing when you move from 1 thread to 4 threads?
+S = (Execution time with one thread) / (Execution time with four threads) = (Performance with four threads) / (Performance with one thread)
+This number should be greater than 1.0 . If not, be sure you are using the correct numerator and denominator.
 
-    If your 1-thread-to-4-threads speedup is S, compute the parallel fraction:
+If your 1-thread-to-4-threads speedup is S, compute the parallel fraction:
 
-    float Fp = (4./3.)*( 1. - (1./S) );
+float Fp = (4./3.)*( 1. - (1./S) );
 
-    Don't worry what this means just yet. This will become more meaningful soon.
-    You must have used 1-thread-to-4-threads. The numbers in this equation depend on that.
+Don't worry what this means just yet. This will become more meaningful soon.
+You must have used 1-thread-to-4-threads. The numbers in this equation depend on that.
 
-    Your written commentary (turned in as a PDF file) should include:
-        Tell what machine you ran this on
-        What performance results did you get?
-        What was your 4-thread-to-one-thread speedup?
-        If the 4-thread-to-one-thread speedup is less than 4.0, why do you think it is this way?
-        What was your Parallel Fraction, Fp? 
+Your written commentary (turned in as a PDF file) should include:
+Tell what machine you ran this on
+What performance results did you get?
+What was your 4-thread-to-one-thread speedup?
+If the 4-thread-to-one-thread speedup is less than 4.0, why do you think it is this way?
+What was your Parallel Fraction, Fp? 
 
 ## The main Program
 
 Your main program would then look something like this:
 
+	#include <omp.h>
+	#include <stdio.h>
+	#include <math.h>
 
-#include <omp.h>
-#include <stdio.h>
-#include <math.h>
+	#define NUMT	         4
+	#define SIZE       	??	// you decide
+	#define NUMTRIES        ??	// you decide
 
-#define NUMT	         4
-#define SIZE       	??	// you decide
-#define NUMTRIES        ??	// you decide
+	float A[SIZE];
+	float B[SIZE];
+	float C[SIZE];
 
-float A[SIZE];
-float B[SIZE];
-float C[SIZE];
-
-int
-main( )
-{
-#ifndef _OPENMP
-        fprintf( stderr, "OpenMP is not supported here -- sorry.\n" );
-        return 1;
-#endif
+	int
+	main( )
+	{
+	#ifndef _OPENMP
+		fprintf( stderr, "OpenMP is not supported here -- sorry.\n" );
+		return 1;
+	#endif
 
 	// inialize the arrays:
 	for( int i = 0 i < SIZE; i++ )
