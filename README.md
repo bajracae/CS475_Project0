@@ -1,9 +1,9 @@
 # CS475_Project0
-##Introduction
+## Introduction
 
 A great use for parallel programming is identical operations on large arrays of numbers.
 
-##Requirements
+## Requirements
 
     Pick an array size to do the arithmetic on. Something like 16384 (16K) will do. Don't pick something too huge, as your machine may not allow you to use that much memory. Don't pick something too small, as the overhead of using threading might dominate the parallelism gains.
 
@@ -35,7 +35,7 @@ A great use for parallel programming is identical operations on large arrays of 
         If the 4-thread-to-one-thread speedup is less than 4.0, why do you think it is this way?
         What was your Parallel Fraction, Fp? 
 
-##The main Program
+## The main Program
 
 Your main program would then look something like this:
 
